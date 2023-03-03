@@ -1,3 +1,3 @@
 # Cpp-Notes
-This repository contains the cpp notes that I worte while taking the youtube front DSA Placement course.
-The notes contains basic to intermediate level atuff and are a bit unorganised.
+This repository contains the cpp notes that I worte while learning the DSA Placement course.
+The notes contains basic to intermediate level atuff and many standard question which are quite popular and are a bit unorganised.
