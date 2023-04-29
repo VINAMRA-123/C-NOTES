@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<algorithm>
 #include<iostream>
 using namespace std;
 int linearsearch(int arr[],int n,int key){
@@ -67,7 +68,7 @@ cout<<binarysearch(arr,n,key)<<endl;
 // 67
 // 34
 // 1
-
+// QUESTIONS ON BINARY SEARCH
 "Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
 Return the kth positive integer that is missing from this array.
 Example 1:
@@ -101,3 +102,170 @@ public:
 
     }
 };
+// problem -1 place elements to maximise minimum distance 
+bool isfeasible(int mid,int arr[],int n,int k){
+    int pos = arr[0],elements =1;
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i]-pos>=mid)
+        {
+            elements++;
+            if (elements==k)
+            {
+                return true;
+            }   
+        }
+    }return false;
+}
+int largestmindis(int arr[],int n,int k){
+    sort(arr,arr+n);
+    int res = -1;
+    int first ,mid,last;
+    first = 1;last = arr[n-1];
+    while (first<last)
+    {
+        mid = (first+last)/2;
+        if(isfeasible(mid,arr,n,k)){
+            res = max(res,mid);
+            first = mid+1;
+        }
+        else
+        {
+            last = mid;
+        }
+    }return res;   
+}
+// problem -2 page allocation
+bool ispossible(int arr[],int n,int m,int min){
+    int studentreq =1,sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i]>min)
+        {
+            return false;
+        }
+        if (sum+arr[i]>min)
+        {
+            studentreq++;
+            sum = arr[i];
+            if (studentreq>m)
+            {
+                return false;
+            }
+            
+        }
+        else
+        {
+            sum +=arr[i];
+        }
+    }return true;
+}
+int pagealloc(int arr[],int n,int m){
+    int sum=0;
+    if(n<m){
+        return -1;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        sum+=arr[i];
+    }
+    int start =0,end =sum,ans= INT_MAX;
+    while (start<=end)
+    {
+        int mid = start+(end-start);
+        if(ispossible(arr,n,m,mid)){
+            ans = min(ans,mid);
+            end = mid-1;
+        }
+        else
+        {
+            start = mid+1;
+        }
+    }
+    return ans;
+    
+}
+// problem -3 painters partition
+
+int findfeasible(int arr[],int n,int limit){
+    int sum =0,painters =1;
+    for (int i = 0; i < n; i++)
+    {
+        sum+=arr[i];
+        if (sum>limit)
+        {
+            sum = arr[i];
+            painters++;
+        }
+    }
+    return painters;
+    
+}
+int painterpart(int arr[],int n,int m){
+    int totallen = 0,k=0;
+    if (n<m)
+    {
+        return false;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        k = max(k,arr[i]);
+        totallen+=arr[i];
+    }
+    int low = k,high =totallen;
+    while (low<high)
+    {
+        int mid = (low+high)/2;
+        int painters = findfeasible(arr,n,mid);
+        if(painters<=m){
+            high = mid;
+        }
+        else
+        {
+            low = mid+1;
+        }        
+    }
+}
+// problem -4 search element in sorted and rotated array
+int findpivot(int arr[],int key,int left,int right){
+    if (left>right)
+    {
+        return -1;
+    }
+    
+    int mid = (left+right)/2;
+    if (arr[mid]==key)
+    {
+        return mid;
+    }
+    if(arr[mid]>=arr[left])
+    {
+        if (key>=arr[left] && key<=arr[mid])
+        {
+            return findpivot(arr, key, left,mid-1);
+        }return findpivot( arr,int key,mid+1, right);        
+    }
+    
+    if (key>=arr[mid] && key<=arr[right])
+    {
+        return findpivot(arr, key, mid+1,right);
+    }return findpivot( arr,int key,left, mid-1);            
+    
+}
+// find the peak element of array
+int peakele(int arr[],int low,int high,int n){
+    int start = 0,end = n;
+    int mid = (start+(end-start))/2;
+   
+    if ((mid==0 ||arr[mid]>arr[mid-1]) && (mid == n-1 || arr[mid]>arrr[mid+1]))
+    {
+        return mid;
+    }
+    else if(arr[mid]<arr[mid-1] && mid>0)
+    {
+        return peakele(arr,low,mid-1,n);
+    }    
+    else{
+        return peakele(arr,mid+1,high,n);
+    }
+}
