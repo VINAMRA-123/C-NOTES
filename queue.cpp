@@ -171,3 +171,113 @@ public:
          
     }
 };
+// creating priority queue using array
+#include <iostream>
+using namespace std;
+
+const int MAX_SIZE = 100;
+
+// Initialize priority queue
+int pq[MAX_SIZE];
+int front = -1;
+int rear = -1;
+
+// Check if priority queue is empty
+bool isEmpty() {
+    return front == -1 && rear == -1;
+}
+
+// Check if priority queue is full
+bool isFull() {
+    return rear == MAX_SIZE - 1;
+}
+
+// Insert an element into priority queue
+void enqueue(int value, int priority) {
+    if (isFull()) {
+        cout << "Priority queue is full. Element could not be inserted." << endl;
+        return;
+    }
+
+    if (isEmpty()) {
+        front++;
+        rear++;
+        pq[rear] = value;
+    }
+    else {
+        int i;
+        for (i = rear; i >= front; i--) {
+            if (priority > pq[i]) {
+                pq[i+1] = pq[i];
+            }
+            else {
+                break;
+            }
+        }
+        pq[i+1] = value;
+        rear++;
+    }
+}
+
+// Remove an element from priority queue
+void dequeue() {
+    if (isEmpty()) {
+        cout << "Priority queue is empty. Element could not be removed." << endl;
+        return;
+    }
+
+    if (front == rear) {
+        front = -1;
+        rear = -1;
+    }
+    else {
+        front++;
+    }
+}
+
+// Get the element with highest priority in priority queue
+int peek() {
+    if (isEmpty()) {
+        cout << "Priority queue is empty." << endl;
+        return -1;
+    }
+
+    return pq[front];
+}
+
+// Traverse the priority queue
+void traverse() {
+    if (isEmpty()) {
+        cout << "Priority queue is empty." << endl;
+        return;
+    }
+
+    cout << "Priority queue elements: ";
+    for (int i = front; i <= rear; i++) {
+        cout << pq[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    // Insert elements with priority into priority queue
+    enqueue(10, 2);
+    enqueue(20, 1);
+    enqueue(30, 3);
+    enqueue(40, 2);
+
+    // Traverse the priority queue
+    traverse();
+
+    // Remove an element from priority queue
+    dequeue();
+
+    // Get the element with highest priority in priority queue
+    int highest_priority = peek();
+    cout << "Element with highest priority: " << highest_priority << endl;
+
+    // Traverse the priority queue again
+    traverse();
+
+    return 0;
+}
