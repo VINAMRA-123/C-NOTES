@@ -191,3 +191,47 @@ int perfectnum(int arr[],int n,int k ){
         }    
     }return maxsum(arr,n,k);
 }
+// find subarray of size k having strictly increasing order which gives maximum value(JP MORGAN)
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int k;
+    cin >> k;
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    if (k > n) {
+        cout << 0 << endl;
+        return 0;
+    }
+    int max_sum = 0;
+    int current_sum = 0;
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+
+        if (i == 0 || arr[i] > arr[i - 1]) {
+            current_sum += arr[i];
+            count++;
+        } else {
+            current_sum = arr[i];
+            count = 1;
+        }
+
+        if (count > k) {
+            current_sum -= arr[i - k];
+            count--;
+        }
+        if (count == k) {
+            max_sum = max(max_sum, current_sum);
+        }
+    }
+
+    cout << max_sum << endl;
+    return 0;
+}
+
